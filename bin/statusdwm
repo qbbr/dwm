@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Usage:
+# ^rx,y,w,h^: Draw a rectangle of width w and height h, with its top left corner at (x,y) relative the X drawing cursor.
+# ^c#FF0000^: Set foreground color.
+# ^b#55cdfc^: Set background color, only applies to text, simply use the ^r^ command to change the background while drawing.
+# ^f^: Forward the X drawing cursor by pixel. Please bear in mind that you have to move the cursor enough to display your drawing (by the with of your drawing).
+# ^d^: Reset colors to SchemeNorm.
+
+get_ps_count() {
+	echo -n ' '
+	ps --no-headers -U $USER -u $USER u | wc -l | tr '\n' ' '
+}
+
+get_keyboard_layout() {
+	if [[ "$(skb -1)" == "Eng" ]]; then
+		echo -en "^b#268BD2^^c#EEE8D5^ EN ^d^"
+	else
+		echo -en "^b#B58900^^c#EEE8D5^ RU ^d^"
+	fi
+}
+
+get_date() {
+	echo -en "^b#073642^ $(date +'%d/%b/%Y [%a] Д=%j ^c#EEE8D5^%H:%M')^d^^b#073642^ ^d^"
+}
+
+while true; do
+	xsetroot -name "$(get_date)$(get_keyboard_layout)$(get_ps_count)"
+	sleep 1
+done

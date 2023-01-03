@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DWM_LOG_PATH="${DWM_LOG_PATH:-$HOME/dwm.log}"
+
+$DIR/statusdwm &
+dwm 2> $DWM_LOG_PATH
