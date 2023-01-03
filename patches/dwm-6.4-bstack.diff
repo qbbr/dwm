@@ -1,0 +1,70 @@
+commit 7829dddffc5e1417a63eb991ad4a02c6738c9526
+Author: Sokolov Innokenty <im@qbbr.io>
+Date:   Tue Jan 3 18:17:05 2023 +0800
+
+    patch bstack
+
+diff --git a/bstack.c b/bstack.c
+new file mode 100644
+index 0000000..b4e938e
+--- /dev/null
++++ b/bstack.c
+@@ -0,0 +1,31 @@
++static void
++bstack(Monitor *m) {
++	int w, h, mh, mx, tx, ty, tw;
++	unsigned int i, n;
++	Client *c;
++
++	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	if (n == 0)
++		return;
++	if (n > m->nmaster) {
++		mh = m->nmaster ? m->mfact * m->wh : 0;
++		tw = m->ww / (n - m->nmaster);
++		ty = m->wy + mh;
++	} else {
++		mh = m->wh;
++		tw = m->ww;
++		ty = m->wy;
++	}
++	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
++		if (i < m->nmaster) {
++			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
++			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
++			mx += WIDTH(c);
++		} else {
++			h = m->wh - mh;
++			resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw), 0);
++			if (tw != m->ww)
++				tx += WIDTH(c);
++		}
++	}
++}
+diff --git a/config.def.h b/config.def.h
+index 3550919..66b4c54 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,5 +1,6 @@
+ /* See LICENSE file for copyright and license details. */
+ #include "gaplessgrid.c"
++#include "bstack.c"
+ 
+ /* appearance */
+ static const unsigned int borderpx       = 2;   /* border pixel of windows */
+@@ -92,6 +93,7 @@ static const Layout layouts[] = {
+ 	{ "[]=",      tile },
+ 	{ "><>",      NULL },        /* no layout function means floating behavior */
+ 	{ "[M]",      monocle },
++	{ "TTT",      bstack },
+ };
+ 
+ /* key definitions */
+@@ -142,6 +144,7 @@ static const Key keys[] = {
+ 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
+ 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
+ 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
++	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
+ 	{ MODKEY,                       XK_space,  setlayout,      {0} },
+ 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+ 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
