@@ -13,6 +13,7 @@
  * [skb](https://github.com/polachok/skb) (see [statusdwm](bin/statusdwm))
  * [volume-control](https://github.com/qbbr/dotfiles/blob/master/bin/volume-control) (optional)
  * [dmenu-mpc-playlist](https://github.com/qbbr/dotfiles/blob/master/bin/dmenu-mpc-playlist) (optional)
+ * [fonts-hack](https://packages.debian.org/stable/source/fonts-hack)
 
 ## Installation
 
