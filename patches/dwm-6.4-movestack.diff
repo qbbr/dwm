@@ -1,0 +1,81 @@
+commit 642416be69f4627625220df028c3de6f944206d3
+Author: Sokolov Innokenty <im@qbbr.io>
+Date:   Tue Jan 3 18:23:00 2023 +0800
+
+    patch movestack
+
+diff --git a/config.def.h b/config.def.h
+index 66b4c54..3794ef1 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,6 +1,7 @@
+ /* See LICENSE file for copyright and license details. */
+ #include "gaplessgrid.c"
+ #include "bstack.c"
++#include "movestack.c"
+ 
+ /* appearance */
+ static const unsigned int borderpx       = 2;   /* border pixel of windows */
+@@ -137,6 +138,8 @@ static const Key keys[] = {
+ 	{ MODKEY,                       XK_u,      resetnmaster,   {0} },
+ 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+ 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
++	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
++	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
+ 	{ MODKEY,                       XK_Return, zoom,           {0} },
+ 	{ MODKEY,                       XK_Tab,    view,           {0} },
+ 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+diff --git a/movestack.c b/movestack.c
+new file mode 100644
+index 0000000..5bf631f
+--- /dev/null
++++ b/movestack.c
+@@ -0,0 +1,48 @@
++void
++movestack(const Arg *arg) {
++	Client *c = NULL, *p = NULL, *pc = NULL, *i;
++
++	if (arg->i > 0) {
++		/* find the client after selmon->sel */
++		for (c = selmon->sel->next; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
++		if (!c)
++			for (c = selmon->clients; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
++
++	}
++	else {
++		/* find the client before selmon->sel */
++		for (i = selmon->clients; i != selmon->sel; i = i->next)
++			if (ISVISIBLE(i) && !i->isfloating)
++				c = i;
++		if (!c)
++			for (; i; i = i->next)
++				if (ISVISIBLE(i) && !i->isfloating)
++					c = i;
++	}
++	/* find the client before selmon->sel and c */
++	for (i = selmon->clients; i && (!p || !pc); i = i->next) {
++		if (i->next == selmon->sel)
++			p = i;
++		if (i->next == c)
++			pc = i;
++	}
++
++	/* swap c and selmon->sel selmon->clients in the selmon->clients list */
++	if (c && c != selmon->sel) {
++		Client *temp = selmon->sel->next == c ? selmon->sel : selmon->sel->next;
++		selmon->sel->next = c->next == selmon->sel ? c : c->next;
++		c->next = temp;
++
++		if (p && p != c)
++			p->next = c;
++		if (pc && pc != selmon->sel)
++			pc->next = selmon->sel;
++
++		if (selmon->sel == selmon->clients)
++			selmon->clients = c;
++		else if (c == selmon->clients)
++			selmon->clients = selmon->sel;
++
++		arrange(selmon);
++	}
++}
