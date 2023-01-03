@@ -8,9 +8,11 @@
 
 ## Requirements
 
- * [dmenu](http://tools.suckless.org/dmenu/)(optional)
- * [slock](http://tools.suckless.org/slock)(optional, see `keys[]` in [config](config.h.dist#L125))
- * [skb](https://github.com/polachok/skb)(see [statusdwm](bin/statusdwm))
+ * [dmenu](http://tools.suckless.org/dmenu/) (optional)
+ * [slock](http://tools.suckless.org/slock) (optional, see `keys[]` in [config](config.h.dist#L125))
+ * [skb](https://github.com/polachok/skb) (see [statusdwm](bin/statusdwm))
+ * [volume-control](https://github.com/qbbr/dotfiles/blob/master/bin/volume-control) (optional)
+ * [dmenu-mpc-playlist](https://github.com/qbbr/dotfiles/blob/master/bin/dmenu-mpc-playlist) (optional)
 
 ## Installation
 
@@ -42,15 +44,15 @@ applied patches:
 
 hotkeys:
 
- * `[Ctrl] + [Pause]`     - lock screen (slock)
- * `[Ctrl] + [PrtScr]`    - take screenshot (scrot)
- * `[Ctrl] + [Num /]`     - volume down (volumechanger)
- * `[Ctrl] + [Num *]`     - volume up (volumechanger)
- * `[Ctrl] + [Num -]`     - volume mute/unmute (volumechanger)
- * `[Ctrl] + [Num +]`     - switch Headphone <-> Front output
- * `[Ctrl] + [Num 5]`     - mpd pause/play (mpc)
- * `[Ctrl] + [Num 4]`     - mpd previous track (mpc)
- * `[Ctrl] + [Num 6]`     - mpd next track (mpc)
- * `[Ctrl] + [Num 7]`     - mpd seek backward (mpc)
- * `[Ctrl] + [Num 9]`     - mpd seek forward (mpc)
- * `[Ctrl] + [Num 0]`     - show mpc playlist (dmenu-mpc-playlist)
+ * `[Ctrl] + [Pause]`  - lock screen (slock)
+ * `[Ctrl] + [PrtScr]` - take screenshot (scrot)
+ * `[Ctrl] + [Num /]`  - volume down (volume-control)
+ * `[Ctrl] + [Num *]`  - volume up (volume-control)
+ * `[Ctrl] + [Num -]`  - volume mute/unmute (volume-control)
+ * `[Ctrl] + [Num +]`  - switch Headphone <-> Front output
+ * `[Ctrl] + [Num 5]`  - mpd pause/play (mpc)
+ * `[Ctrl] + [Num 4]`  - mpd previous track (mpc)
+ * `[Ctrl] + [Num 6]`  - mpd next track (mpc)
+ * `[Ctrl] + [Num 7]`  - mpd seek backward (mpc)
+ * `[Ctrl] + [Num 9]`  - mpd seek forward (mpc)
+ * `[Ctrl] + [Num 0]`  - show mpc playlist (dmenu-mpc-playlist)
