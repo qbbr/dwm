@@ -1,0 +1,83 @@
+commit a39a5b4d7659b333f2577638d8007821b55e1ce0
+Author: Sokolov Innokenty <im@qbbr.io>
+Date:   Tue Jan 3 12:17:14 2023 +0800
+
+    patch gaplessgrid
+
+diff --git a/config.def.h b/config.def.h
+index 1c8096b..06d0ce3 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,4 +1,5 @@
+ /* See LICENSE file for copyright and license details. */
++#include "gaplessgrid.c"
+ 
+ /* appearance */
+ static const unsigned int borderpx       = 1;   /* border pixel of windows */
+@@ -44,8 +45,9 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
+ 
+ static const Layout layouts[] = {
+ 	/* symbol     arrange function */
+-	{ "[]=",      tile },    /* first entry is default */
+-	{ "><>",      NULL },    /* no layout function means floating behavior */
++	{ "###",      gaplessgrid }, /* first entry is default */
++	{ "[]=",      tile },
++	{ "><>",      NULL },        /* no layout function means floating behavior */
+ 	{ "[M]",      monocle },
+ };
+ 
+@@ -78,9 +80,10 @@ static const Key keys[] = {
+ 	{ MODKEY,                       XK_Return, zoom,           {0} },
+ 	{ MODKEY,                       XK_Tab,    view,           {0} },
+ 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
++	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0]} },
++	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
++	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
++	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
+ 	{ MODKEY,                       XK_space,  setlayout,      {0} },
+ 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+ 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+diff --git a/gaplessgrid.c b/gaplessgrid.c
+new file mode 100644
+index 0000000..10808c5
+--- /dev/null
++++ b/gaplessgrid.c
+@@ -0,0 +1,35 @@
++void
++gaplessgrid(Monitor *m) {
++	unsigned int n, cols, rows, cn, rn, i, cx, cy, cw, ch;
++	Client *c;
++
++	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	if (n == 0)
++		return;
++
++	/* grid dimensions */
++	for (cols = 0; cols <= n/2; cols++)
++		if (cols*cols >= n)
++			break;
++	if (n == 5) /* set layout against the general calculation: not 1:2:2, but 2:3 */
++		cols = 2;
++	rows = n/cols;
++
++	/* window geometries */
++	cw = cols ? m->ww / cols : m->ww;
++	cn = 0; /* current column number */
++	rn = 0; /* current row number */
++	for (i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
++		if (i/rows + 1 > cols - n%cols)
++			rows = n/cols + 1;
++		ch = rows ? m->wh / rows : m->wh;
++		cx = m->wx + cn*cw;
++		cy = m->wy + rn*ch;
++		resize(c, cx, cy, cw - 2 * c->bw, ch - 2 * c->bw, False);
++		rn++;
++		if (rn >= rows) {
++			rn = 0;
++			cn++;
++		}
++	}
++}
