@@ -41,6 +41,8 @@ applied patches:
  * [gaplessgrid](https://dwm.suckless.org/patches/gaplessgrid/)
  * resetnmaster
  * bottommargin
+ * bstack from [bottomstack](https://dwm.suckless.org/patches/bottomstack/)
+ * [movestack](https://dwm.suckless.org/patches/movestack/)
 
 hotkeys:
 
