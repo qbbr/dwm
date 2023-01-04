@@ -1,0 +1,50 @@
+commit b55ae03460d1006c7bf4726d948bab21e46a7b19
+Author: Sokolov Innokenty <im@qbbr.io>
+Date:   Wed Jan 4 12:49:11 2023 +0800
+
+    patch schemeurgent
+
+diff --git a/config.def.h b/config.def.h
+index 3794ef1..899044e 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -21,10 +21,12 @@ static const char col_gray2[]            = "#073642";
+ static const char col_gray3[]            = "#657B83";
+ static const char col_gray4[]            = "#EEE8D5";
+ static const char col_cyan[]             = "#268BD2";
++static const char col_yellow[]           = "#B58900";
+ static const char *colors[][3]           = {
+-	/*               fg         bg         border   */
+-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
++	/*                 fg         bg          border     */
++	[SchemeNorm]   = { col_gray3, col_gray1,  col_gray2  },
++	[SchemeSel]    = { col_gray4, col_cyan,   col_cyan   },
++	[SchemeUrgent] = { col_gray4, col_yellow, col_yellow },
+ };
+ 
+ /* tagging */
+diff --git a/dwm.c b/dwm.c
+index 990eea5..57d37c7 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -72,7 +72,7 @@
+ 
+ /* enums */
+ enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
+-enum { SchemeNorm, SchemeSel }; /* color schemes */
++enum { SchemeNorm, SchemeSel, SchemeUrgent }; /* color schemes */
+ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
+        NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+@@ -929,8 +929,8 @@ drawbar(Monitor *m)
+ 	x = 0;
+ 	for (i = 0; i < LENGTH(tags); i++) {
+ 		w = TEXTW(tags[i]);
+-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
++		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : (urg & 1 << i ? SchemeUrgent : SchemeNorm)]);
++		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], 0);
+ 		if (occ & 1 << i)
+ 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
+ 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
