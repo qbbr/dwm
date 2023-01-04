@@ -4,7 +4,7 @@
  * original [README](README) file
  * [dzenbar](https://github.com/qbbr/dzenbar)
 
-[![qbbr-dwm](https://i.imgur.com/6XEXVWcl.png)](https://i.imgur.com/6XEXVWc.png)
+[![qbbr-dwm](https://i.imgur.com/7UicBQJl.png)](https://i.imgur.com/7UicBQJ.png)
 
 ## Requirements
 
