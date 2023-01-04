@@ -44,6 +44,7 @@ applied patches:
  * bottommargin
  * bstack from [bottomstack](https://dwm.suckless.org/patches/bottomstack/)
  * [movestack](https://dwm.suckless.org/patches/movestack/)
+ * schemeurgent
 
 hotkeys:
 
