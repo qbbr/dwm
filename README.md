@@ -1,5 +1,7 @@
 # dwm 6.4 (patched)
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+
  * [dwm](https://dwm.suckless.org/)
  * original [README](README) file
  * [dzenbar](https://github.com/qbbr/dzenbar)
