@@ -63,3 +63,4 @@ hotkeys:
  * `[Ctrl] + [Num 7]`  - mpd seek backward (mpc)
  * `[Ctrl] + [Num 9]`  - mpd seek forward (mpc)
  * `[Ctrl] + [Num 0]`  - show mpc playlist (dmenu-mpc-playlist)
+ * `[Mod] + [Shift] + [Ctrl] + [r]` - restart dwm
