@@ -1,0 +1,89 @@
+commit 0d54bab6dde2b3bd118234e908a670a4ff848f9b
+Author: Sokolov Innokenty <im@qbbr.io>
+Date:   Mon Jan 9 18:49:55 2023 +0800
+
+    patch restartsig
+    
+    kill -HUP <dwmpid> || Mod-C-S-r
+
+diff --git a/config.def.h b/config.def.h
+index 3029c10..1185a81 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -180,6 +180,7 @@ static const Key keys[] = {
+ 	TAGKEYS(                        XK_s,                      7)
+ 	TAGKEYS(                        XK_d,                      8)
+ 	{ MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
++	{ MODKEY|ShiftMask|ControlMask, XK_r,      quit,           {1} },
+ };
+ 
+ /* button definitions */
+diff --git a/dwm.c b/dwm.c
+index 57d37c7..59fcd22 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -233,6 +233,8 @@ static void setup(void);
+ static void seturgent(Client *c, int urg);
+ static void showhide(Client *c);
+ static void sigchld(int unused);
++static void sighup(int unused);
++static void sigterm(int unused);
+ static void spawn(const Arg *arg);
+ static Monitor *systraytomon(Monitor *m);
+ static void tag(const Arg *arg);
+@@ -295,6 +297,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
+ 	[UnmapNotify] = unmapnotify
+ };
+ static Atom wmatom[WMLast], netatom[NetLast], xatom[XLast];
++static int restart = 0;
+ static int running = 1;
+ static Cur *cursor[CurLast];
+ static Clr **scheme;
+@@ -1495,6 +1498,7 @@ propertynotify(XEvent *e)
+ void
+ quit(const Arg *arg)
+ {
++	if (arg->i == 1) restart = 1;
+ 	running = 0;
+ }
+ 
+@@ -1835,6 +1839,9 @@ setup(void)
+ 	/* clean up any zombies immediately */
+ 	sigchld(0);
+ 
++	signal(SIGHUP, sighup);
++	signal(SIGTERM, sigterm);
++
+ 	/* init screen */
+ 	screen = DefaultScreen(dpy);
+ 	sw = DisplayWidth(dpy, screen);
+@@ -1944,6 +1951,20 @@ sigchld(int unused)
+ 	while (0 < waitpid(-1, NULL, WNOHANG));
+ }
+ 
++void
++sighup(int unused)
++{
++	Arg a = {.i = 1};
++	quit(&a);
++}
++
++void
++sigterm(int unused)
++{
++	Arg a = {.i = 0};
++	quit(&a);
++}
++
+ void
+ spawn(const Arg *arg)
+ {
+@@ -2620,6 +2641,8 @@ main(int argc, char *argv[])
+ #endif /* __OpenBSD__ */
+ 	scan();
+ 	run();
++	if (restart)
++		execvp(argv[0], argv);
+ 	cleanup();
+ 	XCloseDisplay(dpy);
+ 	return EXIT_SUCCESS;
