@@ -180,6 +180,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_s,                      7)
 	TAGKEYS(                        XK_d,                      8)
 	{ MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask|ControlMask, XK_r,      quit,           {1} },
 };
 
 /* button definitions */
