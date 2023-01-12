@@ -48,6 +48,7 @@ applied patches:
  * [movestack](https://dwm.suckless.org/patches/movestack/)
  * schemeurgent
  * [restartsig](https://dwm.suckless.org/patches/restartsig/)
+ * [preserveonrestart](https://dwm.suckless.org/patches/preserveonrestart/)
 
 hotkeys:
 
