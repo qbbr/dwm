@@ -58,8 +58,9 @@ static const Rule rules[] = {
 	{ "Fritzing",           NULL,       NULL,            1 << 1,       False,       1  },
 	{ "java-lang-Thread",   NULL,       NULL,            1 << 1,       True,        1  },
 	// 3:web
+	{ "firefox",            NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "Firefox-esr",        NULL,       NULL,            1 << 2,       False,       -1 },
-	{ "firefox-aurora",     NULL,       NULL,            1 << 1,       False,       0  },
+	{ "firefox-aurora",     NULL,       NULL,            1 << 2,       False,       0  },
 	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       -1 },
 	// q:mail
 	{ "Icedove",            NULL,       NULL,            1 << 3,       False,       -1 },
@@ -100,7 +101,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
