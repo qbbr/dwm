@@ -14,14 +14,27 @@ get_ps_count() {
 
 get_keyboard_layout() {
 	if [[ "$(skb -1)" == "Eng" ]]; then
-		echo -en "^b#268BD2^^c#EEE8D5^ EN ^d^"
+		echo -en "^b#268BD2^^c#eee8d5^ EN ^d^"
 	else
-		echo -en "^b#B58900^^c#EEE8D5^ RU ^d^"
+		echo -en "^b#B58900^^c#fdf6e3^ RU ^d^"
 	fi
 }
 
 get_date() {
-	echo -en "^b#073642^ $(date +'%d/%b/%Y [%a] Д=%j ^c#EEE8D5^%H:%M')^d^^b#073642^ ^d^"
+	echo -en "^b#073642^ $(date +'%d/%b/%Y [%a] Д=%j ^c#eee8d5^%H:%M')^d^^b#073642^ ^d^"
+}
+
+get_battery() {
+	local value=$(cat /sys/class/power_supply/BAT0/capacity)
+	local color
+	if [[ "${value}" -le 30 ]]; then
+		color="^b#dc322f^^c#eee8d5^"
+	elif [[ "${value}" -le 70 ]]; then
+		color="^c#93a1a1^"
+	else
+		color="^b#859900^^c#fdf6e3^"
+	fi
+	echo -en "${color} ${value}% ^d^"
 }
 
 while true; do
