@@ -37,7 +37,7 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
+	/* class                instance    title            tags mask     isfloating   monitor */
 	{ "xterm-float",        NULL,       NULL,            0,            True,        -1 },
 	{ "MPlayer",            NULL,       NULL,            0,            True,        -1 },
 	{ "mpv",                NULL,       NULL,            0,            True,        -1 },
