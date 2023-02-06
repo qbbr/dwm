@@ -65,6 +65,7 @@ static const Rule rules[] = {
 	// q:mail
 	{ "Icedove",            NULL,       NULL,            1 << 3,       False,       -1 },
 	{ "Thunderbird",        NULL,       NULL,            1 << 3,       False,       -1 },
+	{ "Evolution",          NULL,       NULL,            1 << 3,       False,       -1 },
 	{ NULL,                 NULL,       "mutt",          1 << 3,       False,       1  },
 	// w:chat
 	{ NULL,                 NULL,       "weechat",       1 << 4,       False,       -1 },
