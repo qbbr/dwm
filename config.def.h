@@ -59,6 +59,7 @@ static const Rule rules[] = {
 	{ "java-lang-Thread",   NULL,       NULL,            1 << 1,       True,        1  },
 	// 3:web
 	{ "firefox",            NULL,       NULL,            1 << 2,       False,       -1 },
+	{ "Tor Browser",        NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "Firefox-esr",        NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "firefox-aurora",     NULL,       NULL,            1 << 2,       False,       0  },
 	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       -1 },
