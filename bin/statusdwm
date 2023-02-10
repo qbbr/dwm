@@ -6,10 +6,14 @@
 # ^b#55cdfc^: Set background color, only applies to text, simply use the ^r^ command to change the background while drawing.
 # ^f^: Forward the X drawing cursor by pixel. Please bear in mind that you have to move the cursor enough to display your drawing (by the with of your drawing).
 # ^d^: Reset colors to SchemeNorm.
+#
+# Depends:
+# Font-Awesome
 
 get_ps_count() {
-	echo -n ' '
-	ps --no-headers -U $USER -u $USER u | wc -l | tr '\n' ' '
+	echo -n '^b#073642^ '
+	ps --no-headers -U $USER -u $USER u | wc -l | tr -d '\n'
+	echo -n ' ^d^'
 }
 
 get_keyboard_layout() {
@@ -21,20 +25,59 @@ get_keyboard_layout() {
 }
 
 get_date() {
-	echo -en "^b#073642^ $(date +'%d/%b/%Y [%a] Д=%j ^c#eee8d5^%H:%M')^d^^b#073642^ ^d^"
+	echo -en "^b#002b36^ \xef\x81\xb3 $(date +'%d/%b/%Y [%a] Д=%j ^c#eee8d5^%H:%M') ^d^"
 }
 
 get_battery() {
-	local value=$(cat /sys/class/power_supply/BAT0/capacity)
+	local BATTERY="/sys/class/power_supply/BAT0"
+	local value=$(cat "${BATTERY}/capacity")
+	local status=$(sed "s/Discharging/-/;s/Charging/+/;s/Not charging/n/;s/Unknown/u/;s/Full//" "${BATTERY}/status")
 	local color
+	local icon
 	if [[ "${value}" -le 30 ]]; then
 		color="^b#dc322f^^c#eee8d5^"
+		icon="\xef\x89\x83"
 	elif [[ "${value}" -le 70 ]]; then
-		color="^c#93a1a1^"
+		color="^b#073642^^c#93a1a1^"
+		icon="\xef\x89\x82"
 	else
 		color="^b#859900^^c#fdf6e3^"
+		icon="\xef\x89\x80"
 	fi
-	echo -en "${color} ${value}% ^d^"
+
+	if [[ "${status}" != "" ]]; then
+		status="[${status}]"
+	fi
+
+	echo -en "${color} ${icon} ${value}% ${status} ^d^"
+}
+
+# @depends: sensors
+get_cpu_temp() {
+	local value=$(sensors | head -n3  | awk '/Tctl:/ {print $2}' | tr -d '\n')
+	local color="^b#073642^^c#d33682^"
+	echo -en "${color} \xef\x8b\x87 ${value} ^d^"
+}
+
+# @depends: sensors
+get_nvme_temp() {
+	local value=$(sensors | head -n 21 | tail -n 1 | awk '{ print $3 }' | tr -d '\n')
+	local color="^b#073642^^c#6c71c4^"
+	echo -en "${color} ${value} ^d^"
+}
+
+# @depends: sysstat
+get_cpu_usage_percent() {
+	local value=$(mpstat | tail -n 1 | awk -F " " '{print (100 - $12)"%"}' | tr -d '\n')
+	local color="^b#073642^^c#2aa198^"
+	echo -en "${color} \xef\x83\xa4 ${value} ^d^"
+}
+
+get_mem_usage_percent() {
+	local value_percent=$(free -m  | awk '/Mem:/ { print int($3 * 100 / $2) }')
+	local value_mb=$(free -m  | awk '/Mem:/ { print $3 }')
+	local color="^b#002b36^^c#6c71c4^"
+	echo -en "${color} \xef\x8b\x9b ${value_percent}% (${value_mb}M) ^d^"
 }
 
 while true; do
