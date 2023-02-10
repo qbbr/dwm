@@ -14,7 +14,7 @@ static const int showsystray             = 1;   /* 0 means no systray */
 static const int showbar                 = 1;   /* 0 means no bar */
 static const int topbar                  = 1;   /* 0 means bottom bar */
 static const unsigned int bottommargin   = 20;  /* Margin at the bottom for another bar */
-static const char *fonts[]               = { "Hack:size=10" };
+static const char *fonts[]               = { "Hack:size=10", "FontAwesome:size=10" };
 static const char dmenufont[]            = "Hack:size=10";
 static const char col_gray1[]            = "#002B36";
 static const char col_gray2[]            = "#073642";
