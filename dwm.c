@@ -79,7 +79,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMWindowTypeDialog, NetClientList, NetClientInfo, NetLast }; /* EWMH atoms */
 enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+enum { ClkTagBar, ClkLtSymbol, ClkMonNum, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
@@ -128,6 +128,7 @@ typedef struct {
 
 struct Monitor {
 	char ltsymbol[16];
+	char monmark[16];
 	float mfact;
 	int nmaster;
 	int num;
@@ -480,6 +481,8 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + TEXTW(selmon->ltsymbol))
 			click = ClkLtSymbol;
+		else if (ev->x < x + TEXTW(selmon->ltsymbol) + TEXTW(selmon->monmark))
+			click = ClkMonNum;
 		else if (ev->x > selmon->ww - (int)TEXTW(stext) - getsystraywidth())
 			click = ClkStatusText;
 		else
@@ -739,6 +742,8 @@ createmon(void)
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
+	/* this is actually set in updategeom, to avoid a race condition */
+//	snprintf(m->monmark, sizeof(m->monmark), "(%d)", m->num);
 	return m;
 }
 
@@ -792,6 +797,7 @@ dirtomon(int dir)
 		for (m = mons; m->next; m = m->next);
 	else
 		for (m = mons; m->next != selmon; m = m->next);
+
 	return m;
 }
 
@@ -944,6 +950,9 @@ drawbar(Monitor *m)
 	w = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+	w = TEXTW(m->monmark);
+	drw_setscheme(drw, scheme[SchemeNorm]);
+	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->monmark, 0);
 
 	if ((w = m->ww - tw - stw - x) > bh) {
 		if (m->sel) {
@@ -2274,6 +2283,8 @@ updategeom(void)
 			{
 				dirty = 1;
 				m->num = i;
+				/* this is ugly, but it is a race condition otherwise */
+				snprintf(m->monmark, sizeof(m->monmark), "{%d}", m->num);
 				m->mx = m->wx = unique[i].x_org;
 				m->my = m->wy = unique[i].y_org;
 				m->mw = m->ww = unique[i].width;
