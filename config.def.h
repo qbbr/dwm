@@ -78,7 +78,7 @@ static const Rule rules[] = {
 	// e:mdia
 	{ NULL,                 NULL,       "newsbeuter",    1 << 5,       False,       -1 },
 	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       1  },
-	{ NULL,                 NULL,       "rhythmbox",     1 << 5,       False,       1  },
+	{ "Rhythmbox",          NULL,       NULL,            1 << 5,       False,       1  },
 	// a:gile
 	// s:ss
 	{ "Fpm2",               NULL,       NULL,            1 << 7,       False,       -1 },
@@ -126,11 +126,20 @@ static const char *volupcmd[]       = { "volume-control", "-i", "5", "--dzen", N
 static const char *voldowncmd[]     = { "volume-control", "-d", "5", "--dzen", NULL };
 static const char *voltogglecmd[]   = { "volume-control", "-t", "--dzen", NULL };
 static const char *mixertogglecmd[] = { "amixer", "-c", "0", "set", "Headphone", "toggle", "&&", "amixer", "-c", "0", "set", "Front", "toggle", NULL };
-static const char *mpdnextcmd[]     = { "mpc", "next", NULL };
-static const char *mpdprevcmd[]     = { "mpc", "prev", NULL };
-static const char *mpdtogglecmd[]   = { "mpc", "toggle", NULL };
-static const char *mpdseekpcmd[]    = { "mpc", "seek", "+5", NULL };
-static const char *mpdseekmcmd[]    = { "mpc", "seek", "-5", NULL };
+/* MPD */
+//static const char *mnextcmd[]       = { "mpc", "next", NULL };
+//static const char *mprevcmd[]       = { "mpc", "prev", NULL };
+//static const char *mtogglecmd[]     = { "mpc", "toggle", NULL };
+//static const char *mseekpcmd[]      = { "mpc", "seek", "+5", NULL };
+//static const char *mseekmcmd[]      = { "mpc", "seek", "-5", NULL };
+/* Rhythmbox */
+static const char *mnextcmd[]       = { "rhythmbox-client", "--next", NULL };
+static const char *mprevcmd[]       = { "rhythmbox-client", "--previous", NULL };
+static const char *mtogglecmd[]     = { "rhythmbox-client", "--play-pause", NULL };
+//static const char *mseekpcmd[]      = { "rhythmbox-client", "--seek", "+5", NULL }; // buggy, its setposition, not seek
+static const char *mseekpcmd[]      = { "dbus-send", "--print-reply", "--dest=org.mpris.MediaPlayer2.rhythmbox", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.Seek", "int64:5000000", NULL };
+//static const char *mseekmcmd[]      = { "rhythmbox-client", "--seek", "-5", NULL };
+static const char *mseekmcmd[]      = { "dbus-send", "--print-reply", "--dest=org.mpris.MediaPlayer2.rhythmbox", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.Seek", "int64:-5000000", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -169,11 +178,11 @@ static const Key keys[] = {
 	{ ControlMask,                  0xffaf,    spawn,          {.v = voldowncmd } },
 	{ ControlMask,                  0xffad,    spawn,          {.v = voltogglecmd } },
 	{ ControlMask,                  0xffab,    spawn,          {.v = mixertogglecmd } },
-	{ ControlMask,                  0xff98,    spawn,          {.v = mpdnextcmd } },
-	{ ControlMask,                  0xff96,    spawn,          {.v = mpdprevcmd } },
-	{ ControlMask,                  0xff9d,    spawn,          {.v = mpdtogglecmd } },
-	{ ControlMask,                  0xff95,    spawn,          {.v = mpdseekmcmd } },
-	{ ControlMask,                  0xff9a,    spawn,          {.v = mpdseekpcmd } },
+	{ ControlMask,                  0xff98,    spawn,          {.v = mnextcmd } },
+	{ ControlMask,                  0xff96,    spawn,          {.v = mprevcmd } },
+	{ ControlMask,                  0xff9d,    spawn,          {.v = mtogglecmd } },
+	{ ControlMask,                  0xff95,    spawn,          {.v = mseekmcmd } },
+	{ ControlMask,                  0xff9a,    spawn,          {.v = mseekpcmd } },
 	{ ControlMask,                  0xff9e,    spawn,          {.v = dmenumpccmd } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
