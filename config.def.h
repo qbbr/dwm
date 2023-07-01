@@ -78,6 +78,7 @@ static const Rule rules[] = {
 	// e:mdia
 	{ NULL,                 NULL,       "newsbeuter",    1 << 5,       False,       -1 },
 	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       1  },
+	{ NULL,                 NULL,       "rhythmbox",     1 << 5,       False,       1  },
 	// a:gile
 	// s:ss
 	{ "Fpm2",               NULL,       NULL,            1 << 7,       False,       -1 },
