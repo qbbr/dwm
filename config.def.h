@@ -49,6 +49,7 @@ static const Rule rules[] = {
 	{ "mupdf",              NULL,       NULL,            0,            True,        -1 },
 	{ "Pgadmin3",           NULL,       NULL,            0,            True,        -1 },
 	{ "Gcolor3",            NULL,       NULL,            0,            True,        -1 },
+	{ "Pavucontrol",        NULL,       NULL,            0,            True,        -1 },
 	// 1:term
 	{ "htop",               NULL,       NULL,            0,            False,        2 },
 	// 2:dev
