@@ -50,6 +50,7 @@ static const Rule rules[] = {
 	{ "Pgadmin3",           NULL,       NULL,            0,            True,        -1 },
 	{ "Gcolor3",            NULL,       NULL,            0,            True,        -1 },
 	{ "Pavucontrol",        NULL,       NULL,            0,            True,        -1 },
+	{ "Tor Browser",        NULL,       NULL,            0,            False,       -1 },
 	// 1:term
 	{ "htop",               NULL,       NULL,            0,            False,        2 },
 	// 2:dev
@@ -60,7 +61,6 @@ static const Rule rules[] = {
 	{ "java-lang-Thread",   NULL,       NULL,            1 << 1,       True,        1  },
 	// 3:web
 	{ "firefox",            NULL,       NULL,            1 << 2,       False,       -1 },
-	{ "Tor Browser",        NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "Firefox-esr",        NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "firefox-aurora",     NULL,       NULL,            1 << 2,       False,       0  },
 	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       -1 },
