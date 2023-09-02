@@ -53,6 +53,7 @@ static const Rule rules[] = {
 	{ "Tor Browser",        NULL,       NULL,            0,            False,       -1 },
 	// 1:term
 	{ "htop",               NULL,       NULL,            0,            False,        2 },
+	{ "xterm-monitor-1",    NULL,       NULL,            0,            False,        1 },
 	// 2:dev
 	{ "jetbrains-idea",     NULL,       NULL,            1 << 1,       False,       1  },
 	{ "jetbrains-phpstorm", NULL,       NULL,            1 << 1,       False,       1  },
@@ -71,15 +72,15 @@ static const Rule rules[] = {
 	{ NULL,                 NULL,       "mutt",          1 << 3,       False,       1  },
 	// w:chat
 	{ NULL,                 NULL,       "weechat",       1 << 4,       False,       -1 },
-	{ NULL,                 NULL,       "mcabber",       1 << 4,       False,       1  },
+	{ NULL,                 NULL,       "mcabber",       1 << 4,       False,       -1  },
 	{ "Pidgin",             NULL,       NULL,            1 << 4,       False,       -1 },
-	{ "TelegramDesktop" ,   NULL,       NULL,            1 << 4,       False,       -1 },
 	{ "Skype",              NULL,       NULL,            1 << 4,       False,       -1 },
-	{ "discord",            NULL,       NULL,            1 << 4,       False,       -1 },
+	{ "TelegramDesktop" ,   NULL,       NULL,            1 << 4,       False,       3 },
+	{ "discord",            NULL,       NULL,            1 << 4,       False,       3 },
 	// e:mdia
 	{ NULL,                 NULL,       "newsbeuter",    1 << 5,       False,       -1 },
-	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       1  },
-	{ "Rhythmbox",          NULL,       NULL,            1 << 5,       False,       1  },
+	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       -1 },
+	{ "Rhythmbox",          NULL,       NULL,            1 << 5,       False,       2  },
 	// a:gile
 	// s:ss
 	{ "Fpm2",               NULL,       NULL,            1 << 7,       False,       -1 },
@@ -87,7 +88,7 @@ static const Rule rules[] = {
 	{ "KeePassXC",          NULL,       NULL,            1 << 7,       False,       -1 },
 	{ NULL,                 NULL,       "rtorrent",      1 << 7,       False,       -1 },
 	// d:bug
-	{ "dmesg",              NULL,       NULL,            1 << 8,       False,        1 },
+	{ "dmesg",              NULL,       NULL,            1 << 8,       False,        2 },
 };
 
 /* layout(s) */
