@@ -64,11 +64,12 @@ static const Rule rules[] = {
 	{ "firefox",            NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "Firefox-esr",        NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "firefox-aurora",     NULL,       NULL,            1 << 2,       False,       0  },
-	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       -1 },
+	{ "Firefox-qq-local",   NULL,       NULL,            1 << 2,       False,       2 },
+	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       0 },
 	// q:mail
 	{ "Icedove",            NULL,       NULL,            1 << 3,       False,       -1 },
 	{ "Thunderbird",        NULL,       NULL,            1 << 3,       False,       -1 },
-	{ "Evolution",          NULL,       NULL,            1 << 3,       False,       -1 },
+	{ "Evolution",          NULL,       NULL,            1 << 3,       False,       0 },
 	{ NULL,                 NULL,       "mutt",          1 << 3,       False,       1  },
 	// w:chat
 	{ NULL,                 NULL,       "weechat",       1 << 4,       False,       -1 },
@@ -171,10 +172,19 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	// multimon
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	//{ MODKEY,                       0xff9c,    focusmon,       {.i = 0 } }, // num1
+	//{ MODKEY,                       0xff99,    focusmon,       {.i = 1 } }, // num2
+	//{ MODKEY,                       0xff9d,    focusmon,       {.i = 2 } }, // num5
+	//{ MODKEY,                       0xff96,    focusmon,       {.i = 3 } }, // num4
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	//{ MODKEY|ShiftMask,             0xff9c,    tagmon,         {.i = 0 } }, // num1
+	//{ MODKEY|ShiftMask,             0xff99,    tagmon,         {.i = 1 } }, // num2
+	//{ MODKEY|ShiftMask,             0xff9d,    tagmon,         {.i = 2 } }, // num5
+	//{ MODKEY|ShiftMask,             0xff96,    tagmon,         {.i = 3 } }, // num4
 	{ ControlMask,                  0xff13,    spawn,          {.v = slockcmd } },
 	{ ControlMask,                  0xff61,    spawn,          {.v = screenshotcmd } },
 	{ ControlMask,                  0xffaa,    spawn,          {.v = volupcmd } },
